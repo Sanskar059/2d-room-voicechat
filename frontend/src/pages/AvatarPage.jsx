@@ -6,7 +6,7 @@ const AvatarPage = ({ onSelectAvatar }) => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/avatars')
+        fetch('https://twod-room-voicechat.onrender.com/api/avatars')
             .then(res => res.json())
             .then(setAvatars)
             .catch(() => setError('Failed to load avatars'));

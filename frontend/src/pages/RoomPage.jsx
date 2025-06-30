@@ -17,7 +17,7 @@ const RoomPage = ({ user, avatar, token }) => {
 
     // Connect to WebSocket and handle events
     useEffect(() => {
-        const socket = io('http://localhost:3001', { transports: ['websocket'] });
+        const socket = io('https://twod-room-voicechat.onrender.com', { transports: ['websocket'] });
         socketRef.current = socket;
         socket.emit('join', {
             token,
@@ -146,7 +146,7 @@ const RoomPage = ({ user, avatar, token }) => {
             <ul style={{ listStyle: 'none', padding: 0 }}>
                 {users.map(u => (
                     <li key={u.socketId} style={{ margin: '8px 0', color: u.email === user.email ? '#1976d2' : '#333' }}>
-                        <img src={`http://localhost:3001/avatars/${['cat', 'dog', 'robot', 'alien'][u.avatar - 1]}.png`} alt={u.name} width={24} height={24} style={{ verticalAlign: 'middle', borderRadius: 4, marginRight: 6 }} />
+                        <img src={`https://twod-room-voicechat.onrender.com/avatars/${['cat', 'dog', 'robot', 'alien'][u.avatar - 1]}.png`} alt={u.name} width={24} height={24} style={{ verticalAlign: 'middle', borderRadius: 4, marginRight: 6 }} />
                         {u.name} {u.email === user.email && '(You)'}
                     </li>
                 ))}
@@ -164,7 +164,7 @@ const RoomPage = ({ user, avatar, token }) => {
                     {users.map(u => {
                         const isMe = u.email === user.email;
                         const pos = u.position || INIT_POS;
-                        const imgSrc = `http://localhost:3001/avatars/${['cat', 'dog', 'robot', 'alien'][u.avatar - 1]}.png`;
+                        const imgSrc = `https://twod-room-voicechat.onrender.com/avatars/${['cat', 'dog', 'robot', 'alien'][u.avatar - 1]}.png`;
                         const inProx = proximity[u.socketId];
                         return (
                             <div key={u.socketId}
