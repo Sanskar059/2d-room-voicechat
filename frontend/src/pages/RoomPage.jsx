@@ -154,12 +154,38 @@ const RoomPage = ({ user, avatar, token }) => {
         </div>
     );
 
+    // Handle grid click
+    const handleGridClick = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+        const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+        if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
+            setPosition({ x, y });
+            socketRef.current.emit('move', { position: { x, y } });
+        }
+    };
+
+    // Handle grid touch (for mobile)
+    const handleGridTouch = (e) => {
+        const touch = e.changedTouches[0];
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = Math.floor((touch.clientX - rect.left) / CELL_SIZE);
+        const y = Math.floor((touch.clientY - rect.top) / CELL_SIZE);
+        if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
+            setPosition({ x, y });
+            socketRef.current.emit('move', { position: { x, y } });
+        }
+    };
+
     // Render grid and avatars
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h2>Room</h2>
             <div style={{ position: 'relative', width: GRID_SIZE * CELL_SIZE + 200, height: GRID_SIZE * CELL_SIZE, margin: '20px auto', background: '#fafafa', display: 'flex' }}>
-                <div style={{ position: 'relative', width: GRID_SIZE * CELL_SIZE, height: GRID_SIZE * CELL_SIZE, border: '2px solid #333', background: '#fafafa' }}>
+                <div style={{ position: 'relative', width: GRID_SIZE * CELL_SIZE, height: GRID_SIZE * CELL_SIZE, border: '2px solid #333', background: '#fafafa' }}
+                    onClick={handleGridClick}
+                    onTouchEnd={handleGridTouch}
+                >
                     {/* Render all users */}
                     {users.map(u => {
                         const isMe = u.email === user.email;
